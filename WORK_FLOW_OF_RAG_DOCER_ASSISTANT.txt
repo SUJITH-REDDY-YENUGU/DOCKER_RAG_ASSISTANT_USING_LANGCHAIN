@@ -1,0 +1,73 @@
+# Docker RAG Assistant Demo
+
+This notebook explains the flow of our Retrieval-Augmented Generation (RAG) pipeline
+for answering questions about Docker documentation.  
+All collected Docker docs are stored as `.txt` files inside the `notebooks/raw/` folder.
+
+---
+
+## Step 1: Load Docker Documentation
+
+We collected Docker documentation pages from the official site and saved them as `.txt` files.
+These files are read into memory and tagged with their filenames as metadata, so answers can cite sources.
+
+---
+
+## Step 2: Chunk Documents
+
+The text files are split into smaller sections (chunks) of ~500 characters with overlap.
+This makes retrieval more efficient and ensures context is preserved.
+
+---
+
+## Step 3: Create Embeddings
+
+Each chunk is converted into a vector representation using the HuggingFace model
+`sentence-transformers/all-MiniLM-L6-v2`.  
+These embeddings capture semantic meaning for better search.
+
+---
+
+## Step 4: Store in ChromaDB
+
+The embeddings are stored in a ChromaDB vector database.  
+This allows semantic search over the documentation.
+
+---
+
+## Step 5: Retrieval
+
+When a user asks a question, the system searches ChromaDB for the most relevant chunks.
+The retrieved chunks include both the text and the source filename.
+
+---
+
+## Step 6: Answer Generation
+
+The retrieved chunks are passed to the Groq LLM (`llama-3.1-8b-instant`).
+The model generates a clear answer, grounded in the retrieved documentation,
+and cites the source `.txt` files.
+
+---
+
+## Example Q&A
+
+**Q:** What is Docker volume?  
+**A:** A Docker volume persists data outside the lifecycle of a container.  
+It can be shared across containers and remains even when a container is removed.  
+**Sources:** `docker_volume_overview.txt`, `docker_bind_mounts.txt`
+
+---
+
+**Q:** How does the VOLUME instruction in a Dockerfile work?  
+**A:** The `VOLUME` instruction creates a mount point inside the container and marks it
+for external volumes so data written there is persisted outside the container layer.  
+**Sources:** `dockerfile_reference.txt`
+
+---
+
+## Conclusion
+
+This flow demonstrates how the Docker RAG Assistant ingests documentation,
+creates embeddings, stores them in ChromaDB, retrieves relevant chunks,
+and generates answers with citations.
