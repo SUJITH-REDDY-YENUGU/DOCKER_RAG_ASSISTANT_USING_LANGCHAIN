@@ -2,25 +2,34 @@
 # Docker RAG Assistant
 
 ## Overview
-The Docker RAG Assistant is a Retrieval-Augmented Generation (RAG) tool that helps developers quickly find answers from Docker documentation.  
+The **Docker RAG Assistant** is a Retrieval-Augmented Generation (RAG) tool designed to help developers quickly find accurate answers from Docker documentation.  
 Instead of manually browsing the Docker site, we collected key documentation pages, converted them into `.txt` files, and stored them in `data/raw/`.  
-These files form the knowledge base for the assistant.
-
-The assistant ingests these files, embeds them, and retrieves relevant sections to answer user queries with clear explanations and source citations.
+These files form the knowledge base for the assistant, enabling **semantic search** and **LLM-powered answers** with source citations.
 
 ---
 
 ## Problem
-Docker documentation is large and often overwhelming. Developers waste time searching for commands, configuration details, or best practices.  
-Keyword search doesn’t understand context, so results are often incomplete.
+Docker documentation is extensive and often overwhelming. Developers waste time searching for commands, configuration details, or best practices.  
+Traditional keyword search doesn’t understand context, leading to incomplete or irrelevant results.
 
 ---
 
 ## Solution
 Our assistant solves this problem by:
-- Providing **direct answers** to natural language questions.
-- Ensuring answers are **grounded in official Docker docs**.
-- Saving developers time and improving productivity.
+- Providing **direct answers** to natural language questions.  
+- Ensuring answers are **grounded in official Docker docs**.  
+- Saving developers time and improving productivity.  
+- Offering a **reproducible workflow** for applying RAG to other technical domains.  
+
+---
+
+## Features
+- 🔍 **Semantic Retrieval** using ChromaDB vector storage.  
+- 🧩 **Chunking Strategy** with overlap to preserve context.  
+- 🤖 **LLM Integration** via Groq’s `llama-3.1-8b-instant`.  
+- 📚 **Source Citations** for transparency and trust.  
+- ⚙️ **Configurable Architecture** (embeddings, chunk sizes, overlap parameters).  
+- 🖥️ **CLI Interface** for interactive Q&A.  
 
 ---
 
@@ -30,7 +39,7 @@ Our assistant solves this problem by:
 3. **Chunk docs** → Split into smaller sections for efficient retrieval.  
 4. **Embed chunks** → HuggingFace `all-MiniLM-L6-v2` embeddings.  
 5. **Store in ChromaDB** → Vector database for semantic search.  
-6. **Retrieve + Answer** → Relevant chunks passed to Groq’s LLM (`llama-3.1-8b-instant`) for answer generation.  
+6. **Retrieve + Answer** → Relevant chunks passed to Groq’s LLM for answer generation.  
 7. **Source citations** → Each answer cites the exact `.txt` files used.  
 
 ---
@@ -55,12 +64,15 @@ Our assistant solves this problem by:
    ```bash
    pip install -r requirements.txt
    ```
-NOTE:ADD YOUR OWN GROQ API KEY TO LET IT WORK,OKAY?(YOU CAN GET IT )
-3. Run the CLI:
+3. Add your **Groq API key** in `.env`:
+   ```
+   GROQ_API_KEY=your_api_key_here
+   ```
+4. Run the CLI:
    ```bash
    python src/cli.py
    ```
-4. Ask questions like:
+5. Ask questions like:
    ```
    What is Docker run?
    How do bind mounts differ from volumes?
@@ -86,36 +98,22 @@ notebooks/
 
 requirements.txt
 README.md
-LICENSE (optional)
+LICENSE
 ```
 
 ---
 
 ## Future Work
-- Add hybrid search (semantic + keyword).  
-- Support multi-turn conversations with memory.  
-- Expand dataset to include Kubernetes and FastAPI docs.  
+- Add **hybrid search** (semantic + keyword).  
+- Support **multi-turn conversations** with memory.  
+- Expand dataset to include **Kubernetes** and **FastAPI** docs.  
+- Implement **retrieval evaluation metrics** (precision, recall, relevance).  
 
 ---
 
 ## Impact
 This assistant demonstrates how RAG can be applied to technical documentation.  
-It reduces time spent searching, ensures accuracy by grounding answers in official docs, and provides a reproducible workflow for other domains.
-```
-
----
-
-### 📄 requirements.txt (as text)
-
-```
-chromadb==0.4.22
-langchain
-langchain-groq
-sentence-transformers
-python-dotenv
-torch
-transformers
-tf-keras
-```
+It reduces time spent searching, ensures accuracy by grounding answers in official docs, and provides a reproducible workflow for other domains.  
+By clarifying scope and features, this repository serves as a **template for building domain-specific RAG assistants**.
 
 ---
