@@ -1,10 +1,4 @@
-Here you go 👇 — a **neatly written README.md** and **requirements.txt** in plain text format, ready to drop into your repo.  
 
----
-
-### 📄 README.md (as text)
-
-```
 # Docker RAG Assistant
 
 ## Overview
